@@ -24,9 +24,10 @@ mongoose.connect(config.MONGODB_URI)
     console.log('error connecting to MongoDB:', error.message)
   })
 
-app.use(cors())
+app.use(cors());
+app.use(express.static('dist'));
 app.use(morgan('tiny'));
-app.use(express.json())
+app.use(express.json());
 
 app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
