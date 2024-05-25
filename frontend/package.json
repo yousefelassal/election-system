@@ -12,6 +12,8 @@
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
     "@hookform/resolvers": "^3.4.2",
+    "@nextui-org/react": "^2.3.6",
+    "framer-motion": "^11.2.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.5",
