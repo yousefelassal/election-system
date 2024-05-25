@@ -1,8 +1,39 @@
+import { login, signup } from "../services/login"
+import { useUserStore } from "../stores/user"
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from "react-hook-form"
+import { Button, Input } from '@nextui-org/react'
 import { Link } from "react-router-dom"
+import { useState } from "react"
+
+const schema = z.object({
+  name: z.string().min(1),
+  phone: z.string().min(1),
+  password: z.string().min(1),
+})
 
 const Signup = () => {
+  const form = useForm({ resolver: zodResolver(schema) })
+  const { setUser } = useUserStore()
+  const [isVisible, setIsVisible] = useState(false)
+  const toggleVisibility = () => setIsVisible(!isVisible)
+
+  const handleLogin = async () => {
+    const { name, phone, password } = form.getValues()
+
+    await signup(name, phone, password);
+
+    const user = await login(phone, password)
+    if (user) {
+      setUser(user)
+    }
+    if (!user) {
+        form.setError('password', { type: 'manual', message: 'Server Error' })
+    }
+  }
   return (
-    <div className="flex flex-col items-center justify-center w-full p-4 lg:px-8">
+    <div className="flex flex-col gap-8 items-center justify-center w-full p-4 lg:px-8">
         <header className="flex w-full items-center justify-between">
             <Link to="/" className="group flex items-center justify-center gap-1">
                 <svg className="lg:hidden" xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
@@ -26,11 +57,64 @@ const Signup = () => {
             </svg>
             <div className="hidden lg:flex gap-1">
                 Already have an account?
-            <Link to="/login" className="font-bold hover:text-gray-700 underline transition-colors">
-                Log in
-            </Link>
+                <Link to="/login" className="hover:text-gray-700 font-bold underline transition-colors">
+                    Log in
+                </Link>
             </div>
         </header>
+        <form onSubmit={form.handleSubmit(handleLogin)} className="flex w-full flex-col gap-4">
+            <h1 className="font-bold text-lg">Sign Up</h1>
+            <div className="flex flex-col w-full gap-1">
+                <label>Name</label>
+                <Input
+                    {...form.register('name')}
+                />
+            </div>
+            <div className="flex flex-col w-full gap-1">
+                <label>Phone</label>
+                <Input
+                    {...form.register('phone')}
+                />
+            </div>
+            <div className="flex flex-col w-full gap-1">
+                <label>Password</label>
+                <Input
+                    endContent={
+                        <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
+                            {isVisible ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="17" viewBox="0 0 19 17" fill="none">
+                                <path d="M17.5194 1.0987L16.7835 0.362755C16.5755 0.154764 16.1915 0.186773 15.9515 0.474718L13.3913 3.01868C12.2392 2.52274 10.9754 2.28274 9.64731 2.28274C5.69519 2.29868 2.27141 4.60265 0.62329 7.91486C0.527263 8.12285 0.527263 8.37878 0.62329 8.55476C1.39122 10.1228 2.54329 11.4188 3.9833 12.3948L1.8873 14.5227C1.6473 14.7627 1.61529 15.1467 1.77534 15.3547L2.51128 16.0907C2.71928 16.2987 3.10326 16.2666 3.34326 15.9787L17.3912 1.93081C17.6952 1.69095 17.7272 1.30698 17.5192 1.09897L17.5194 1.0987ZM10.4953 5.93058C10.2233 5.86657 9.93534 5.78661 9.66332 5.78661C8.30327 5.78661 7.21538 6.87463 7.21538 8.23454C7.21538 8.50655 7.2794 8.7945 7.35935 9.06652L6.28724 10.1226C5.96728 9.5626 5.7913 8.9385 5.7913 8.23458C5.7913 6.1066 7.50332 4.39458 9.6313 4.39458C10.3354 4.39458 10.9593 4.57056 11.5193 4.89052L10.4953 5.93058Z" fill="#666666" fillOpacity="0.8"/>
+                                <path d="M18.6714 7.9148C18.1114 6.79475 17.3753 5.78682 16.4634 4.97079L13.4874 7.9148V8.23475C13.4874 10.3627 11.7754 12.0748 9.64739 12.0748H9.32744L7.43945 13.9627C8.14351 14.1067 8.87946 14.2027 9.59946 14.2027C13.5516 14.2027 16.9754 11.8988 18.6235 8.57062C18.7675 8.34655 18.7675 8.12264 18.6714 7.91463L18.6714 7.9148Z" fill="#666666" fillOpacity="0.8"/>
+                                </svg>
+                            ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="13" viewBox="0 0 17 13" fill="none">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M8.626 8.26235e-05C12.3789 0.0541739 15.4579 3.48248 17 6.43226C17 6.43226 16.4573 7.5606 15.9484 8.2829C15.7021 8.63233 15.443 8.97275 15.1707 9.30198C14.9766 9.53638 14.7761 9.76464 14.5681 9.98642C12.7094 11.9698 10.04 13.4493 7.22122 12.8749C4.08975 12.2366 1.53539 9.51041 0 6.57831C0 6.57831 0.545159 5.44888 1.05695 4.72766C1.28623 4.4042 1.52687 4.08939 1.77886 3.78395C1.97194 3.54991 2.17212 3.32165 2.37903 3.09987C4.02125 1.34155 6.12842 -0.0121781 8.626 8.26235e-05ZM8.61287 1.44252C6.52238 1.43458 4.78398 2.62063 3.40866 4.09299C3.22162 4.29313 3.04132 4.4994 2.8667 4.71071C2.63706 4.9891 2.41772 5.27651 2.20867 5.57113C1.99962 5.86538 1.78525 6.23681 1.61525 6.55234C2.96891 8.86348 5.00083 10.951 7.50054 11.4606C9.82989 11.9355 12.0038 10.6308 13.5399 8.99186C13.7276 8.79172 13.909 8.58509 14.0843 8.37342C14.3328 8.07303 14.5691 7.76255 14.7938 7.44341C15.0018 7.14807 15.2158 6.77592 15.3855 6.46003C13.9807 4.07099 11.5772 1.4894 8.61287 1.44252Z" fill="black" fillOpacity="0.6"/>
+                                <path fillRule="evenodd" clipRule="evenodd" d="M8.49994 3.61423C10.0705 3.61423 11.3457 4.9099 11.3457 6.50523C11.3457 8.10093 10.0705 9.39623 8.49994 9.39623C6.92977 9.39623 5.65454 8.10093 5.65454 6.50523C5.65454 4.9099 6.92977 3.61423 8.49994 3.61423Z" fill="black" fillOpacity="0.6"/>
+                                </svg>
+                            )}
+                        </button>
+                    }
+                    type={isVisible ? "text" : "password"}
+                    {...form.register('password')}
+                />
+            </div>
+            {form.formState.errors.password && <p className="text-red-500">{form.formState.errors.password.message}</p>}
+            <div className="flex flex-col items-center w-full gap-2">
+                <Button
+                    className="flex w-full"
+                    color="primary"
+                    type="submit"
+                    isLoading={form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting}
+                >
+                    Signup
+                </Button>
+                <div className="lg:hidden items-center text-center flex gap-1">
+                    <span>Already have an account?</span>
+                    <Link to="/login" className="hover:text-gray-700 font-bold transition-colors">Login</Link>
+                </div>
+            </div>
+        </form>
     </div>
   )
 }
