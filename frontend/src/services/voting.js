@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { baseUrl } from '../lib/utils';
 
-export const voteFor = async (candidateId, token) => {
+export const voteFor = async (id, token) => {
     try {
-        const response = await axios.put(`${baseUrl}/voting/${candidateId}`, {
+        const response = await axios.put(`${baseUrl}/voting/${id}`, {}, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -12,7 +12,7 @@ export const voteFor = async (candidateId, token) => {
     } catch (error) {
         return error;
     }
-}
+};
 
 export const resetVotes = async (token) => {
     try {
