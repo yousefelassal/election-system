@@ -40,7 +40,9 @@ const AdminPanel = () => {
     resolver: zodResolver(addSchema)
   });
   const resetForm = useForm();
-  const { data, isLoading, mutate } = useSWR(`${baseUrl}/stats`, getStats);
+  const { data, isLoading, mutate } = useSWR(`${baseUrl}/stats`, getStats, {
+    refreshInterval: 1000
+  });
   const { user } = useUserStore();
 
   const { isOpen:isAddOpen, onOpen: onAddOpen, onOpenChange: onAddOpenChange } = useDisclosure();
