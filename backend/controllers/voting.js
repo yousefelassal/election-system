@@ -29,17 +29,9 @@ router.delete('/reset', tokenExtractor, async (request, response) => {
         return response.status(401).json({ error: 'only admins can reset votes' })
     }
 
-    User.updateMany({}, { $set: { votedFor: null } }, (err) => {
-        if (err) {
-            return response.status(500).json({ error: 'error resetting votes' })
-        }
-    })
+    User.updateMany({}, { $set: { votedFor: null } })
 
-    Candidate.updateMany({}, { $set: { votes: 0 } }, (err) => {
-        if (err) {
-            return response.status(500).json({ error: 'error resetting votes' })
-        }
-    })
+    Candidate.updateMany({}, { $set: { votes: 0 } })
 
     response.status(204).end();
 });
