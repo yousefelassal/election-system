@@ -4,7 +4,9 @@ import { getStats } from '../services/stats';
 import { DonutChart, Legend } from '@tremor/react';
 
 const Stats = () => {
-  const { data, isLoading } = useSWR(`${baseUrl}/stats`, getStats);
+  const { data, isLoading } = useSWR(`${baseUrl}/stats`, getStats, {
+    refreshInterval: 1000
+  });
   if (isLoading) return <div>Loading...</div>;
   const values = data.map((candidate) => {
     return {
@@ -19,12 +21,10 @@ const Stats = () => {
       <DonutChart
         data={values}
         index="name"
-        colors={['blue', 'cyan', 'indigo', 'violet', 'fuchsia']}
         variant="pie"
       />
       <Legend
         categories={values.map((candidate) => candidate.name)}
-        colors={['blue', 'cyan', 'indigo', 'violet', 'fuchsia']}
       />
       </div>
     </div>
