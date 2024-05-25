@@ -44,7 +44,9 @@ router.delete('/:id', tokenExtractor, async (request, response) => {
     if (!request.decodedToken.admin) {
         return response.status(401).json({ error: 'only admins can delete candidates' })
     }
-    
+
     await Candidate.findByIdAndRemove(request.params.id)
     response.status(204).end()
 })
+
+module.exports = router;
