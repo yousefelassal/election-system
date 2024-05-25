@@ -86,14 +86,21 @@ const Login = () => {
                 />
             </div>
             {form.formState.errors.password && <p className="text-red-500">{form.formState.errors.password.message}</p>}
-            <Button
-                color="primary"
-                type="submit"
-                isLoading={form.formState.isSubmitting}
-                disabled={form.formState.isSubmitting}
-            >
-                Login
-            </Button>
+            <div className="flex flex-col items-center w-full gap-1">
+                <Button
+                    className="flex w-full"
+                    color="primary"
+                    type="submit"
+                    isLoading={form.formState.isSubmitting}
+                    disabled={form.formState.isSubmitting}
+                >
+                    Login
+                </Button>
+                <div className="lg:hidden flex gap-1">
+                    <span>Do not have an account?</span>
+                    <Link to="/signup" className="hover:text-gray-700 font-bold transition-colors">Sign up</Link>
+                </div>
+            </div>
         </form>
     </div>
   )
