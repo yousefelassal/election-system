@@ -45,9 +45,9 @@ const DeleteModal = ({ id, mutate }) => {
                       isLoading={deleteForm.formState.isSubmitting}
                       disabled={deleteForm.formState.isSubmitting}
                       onClick={deleteForm.handleSubmit(async () => {
+                        onClose();
                         const response = await deleteCandidate(id, user.token);
                         if (response) {
-                          onClose();
                           mutate();
                         }
                       })}
