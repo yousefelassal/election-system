@@ -29,11 +29,11 @@ router.delete('/reset', tokenExtractor, async (request, response) => {
         return response.status(401).json({ error: 'only admins can reset votes' })
     }
 
-    User.updateMany({}, { $set: { votedFor: null } })
+    await User.updateMany({}, { $set: { votedFor: null } })
 
-    Candidate.updateMany({}, { $set: { votes: 0 } })
+    await Candidate.updateMany({}, { $set: { votes: 0 } })
 
-    response.status(204).end();
+    response.status(204).json({ message: 'votes reset' })
 });
 
 module.exports = router;
