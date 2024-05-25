@@ -1,4 +1,5 @@
 import { addCandidate } from '../services/candidates';
+import { resetVotes } from '../services/voting';
 import { getStats } from '../services/stats';
 import useSWR from 'swr';
 import { baseUrl } from '../lib/utils';
@@ -17,7 +18,8 @@ import {
   TableRow,
   TableCell,
   User,
-  Progress
+  Progress,
+  ModalFooter
 } from "@nextui-org/react";
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -37,10 +39,12 @@ const AdminPanel = () => {
   const addForm = useForm({
     resolver: zodResolver(addSchema)
   });
+  const resetForm = useForm();
   const { data, isLoading, mutate } = useSWR(`${baseUrl}/stats`, getStats);
   const { user } = useUserStore();
 
   const { isOpen:isAddOpen, onOpen: onAddOpen, onOpenChange: onAddOpenChange } = useDisclosure();
+  const { isOpen:isResetOpen, onOpen: onResetOpen, onOpenChange: onResetOpenChange } = useDisclosure();
 
   const renderCell = useCallback((candidate, columnKey) => {
     const cellValue = candidate[columnKey];
@@ -88,19 +92,54 @@ const AdminPanel = () => {
         <div className="flex p-4 lg:px-6 flex-col gap-4 w-full rounded-xl h-full bg-white">
           <div className="flex items-center justify-between">
             <h1 className="font-bold text-lg">Candidates</h1>
-            <Button
-              variant="bordered"
-              color="primary"
-              onClick={onAddOpen}
-              startContent={
-                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
-                  <path d="M9.5 4.21619V13.7787" stroke="#006FEE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M14.5625 8.99744H4.4375" stroke="#006FEE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              }
-            >
-              Add Candidate
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="flat"
+                color="danger"
+                onClick={onResetOpen}
+              >
+                Reset Votes
+              </Button>
+              <Modal isOpen={isResetOpen} onOpenChange={onResetOpenChange}>
+                <ModalContent>
+                  {(onClose) => (
+                    <div className="flex flex-col space-y-4">
+                      <ModalHeader>Reset Votes</ModalHeader>
+                      <ModalBody>
+                        <p>Are you sure you want to reset all votes?</p>
+                      </ModalBody>
+                      <ModalFooter className="flex justify-end">
+                        <Button
+                          color="danger"
+                          onClick={resetForm.handleSubmit(async () => {
+                            await resetVotes(user.token);
+                            onClose();
+                            mutate();
+                          })}
+                          isLoading={resetForm.formState.isSubmitting}
+                          disabled={resetForm.formState.isSubmitting}
+                        >
+                          Reset Votes
+                        </Button>
+                      </ModalFooter>
+                    </div>
+                  )}
+                </ModalContent>
+              </Modal>
+              <Button
+                variant="bordered"
+                color="primary"
+                onClick={onAddOpen}
+                startContent={
+                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+                    <path d="M9.5 4.21619V13.7787" stroke="#006FEE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M14.5625 8.99744H4.4375" stroke="#006FEE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                }
+              >
+                Add Candidate
+              </Button>
+            </div>
             <Modal isOpen={isAddOpen} onOpenChange={onAddOpenChange}>
               <ModalContent>
                 {(onClose) => (
