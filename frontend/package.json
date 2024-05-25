@@ -11,8 +11,12 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
+    "@headlessui/react": "^2.0.4",
+    "@headlessui/tailwindcss": "^0.2.0",
     "@hookform/resolvers": "^3.4.2",
     "@nextui-org/react": "^2.3.6",
+    "@remixicon/react": "^4.2.0",
+    "@tremor/react": "^3.17.2",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.6",
@@ -26,6 +30,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
