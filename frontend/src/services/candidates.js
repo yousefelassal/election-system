@@ -10,27 +10,39 @@ export const getCandidates = async () => {
     }
 };
 
-export const addCandidate = async (name, party, image) => {
+export const addCandidate = async (name, party, image, token) => {
     try {
-        const response = await axios.post(`${baseUrl}/candidates`, { name, party, image });
+        const response = await axios.post(`${baseUrl}/candidates`, { name, party, image }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response.data;
     } catch (error) {
         return null;
     }
 };
 
-export const deleteCandidate = async (id) => {
+export const deleteCandidate = async (id, token) => {
     try {
-        const response = await axios.delete(`${baseUrl}/candidates/${id}`);
+        const response = await axios.delete(`${baseUrl}/candidates/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response.data;
     } catch (error) {
         return null;
     }
 };
 
-export const updateCandidate = async (id, name, party, image) => {
+export const updateCandidate = async (id, name, party, image, token) => {
     try {
-        const response = await axios.put(`${baseUrl}/candidates/${id}`, { name, party, image });
+        const response = await axios.put(`${baseUrl}/candidates/${id}`, { name, party, image }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response.data;
     } catch (error) {
         return null;
