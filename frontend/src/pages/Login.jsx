@@ -29,8 +29,8 @@ const Login = () => {
     }
   }
   return (
-    <div className="flex flex-col gap-8 items-center justify-center w-full p-4 lg:px-8">
-        <header className="flex w-full items-center justify-between">
+    <div className="flex flex-col gap-8 items-center justify-center w-full">
+        <header className="flex w-full items-center justify-between lg:border-b p-4 lg:px-8">
             <Link to="/" className="group flex items-center justify-center gap-1">
                 <svg className="lg:hidden" xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
                     <rect x="0.5" y="0.5" width="38" height="38" rx="9.5" stroke="#D8DADC"/>
@@ -55,7 +55,7 @@ const Login = () => {
                 Create an account
             </Link>
         </header>
-        <form onSubmit={form.handleSubmit(handleLogin)} className="flex w-full flex-col gap-4">
+        <form onSubmit={form.handleSubmit(handleLogin)} className="flex w-full flex-col gap-4 p-4 lg:px-8">
             <h1 className="font-bold text-lg">Login</h1>
             <div className="flex flex-col w-full gap-1">
                 <label>Phone</label>
