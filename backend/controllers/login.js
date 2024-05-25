@@ -4,26 +4,26 @@ const router = require('express').Router()
 const User = require('../models/user')
 
 router.post('/', async (request, response) => {
-  const { username, password } = request.body
+  const { phone, password } = request.body
 
-  const user = await User.findOne({ username })
+  const user = await User.findOne({ phone })
   const passwordCorrect = user === null
     ? false
     : await bcrypt.compare(password, user.passwordHash)
   
   if (!(user && passwordCorrect)) {
-    return response.status(401).json({ error: 'invalid username or password' })
+    return response.status(401).json({ error: 'invalid phone or password' })
   }
 
   const userForToken = {
-    username: user.username,
+    phone: user.phone,
     id: user._id,
     admin: user.admin
   }
 
   const token = jwt.sign(userForToken, process.env.SECRET)
 
-  response.status(200).send({ token, username: user.username, name: user.name, admin: user.admin })
+  response.status(200).send({ token, phone: user.phone, name: user.name, admin: user.admin })
 })
 
 module.exports = router
