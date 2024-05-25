@@ -19,7 +19,7 @@ router.post('/', async (request, response) => {
 });
 
 router.get('/', async (request, response) => {
-  const users = await User.find({});
+  const users = await User.find({}).populate('votedFor', { name: 1, party: 1 });
   response.json(users);
 });
 
