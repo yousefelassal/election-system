@@ -12,17 +12,18 @@ const candidateRouter = require('./controllers/candidates');
 const votingRouter = require('./controllers/voting');
 const statsRouter = require('./controllers/stats');
 
-mongoose.set('strictQuery', false)
+const connectDB = async () => {
+  mongoose.set('strictQuery', false)
 
-console.log('connecting to: ', config.MONGODB_URI)
+  console.log('connecting to: ', config.MONGODB_URI)
 
-mongoose.connect(config.MONGODB_URI)
-  .then(() => {
-    console.log('connected to MongoDB')
-  })
-  .catch((error) => {
-    console.log('error connecting to MongoDB:', error.message)
-  })
+  try {
+    await mongoose.connect(config.MONGODB_URI)
+    console.log('Connected to MongoDB')
+  } catch (error) {
+    console.error('Error connecting to MongoDB: ', error.message)
+  }
+}
 
 app.use(cors());
 app.use(express.static('dist'));
@@ -35,7 +36,11 @@ app.use('/api/candidates', candidateRouter);
 app.use('/api/voting', votingRouter);
 app.use('/api/stats', statsRouter);
 
-app.listen(config.PORT, () => {
+const start = async () => {
+  await connectDB()
+  app.listen(config.PORT, () => {
     console.log(`Server running on port ${config.PORT}`)
-    }
-)
+  })
+}
+
+start();
