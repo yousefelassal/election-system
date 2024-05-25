@@ -13,6 +13,7 @@
     "@formkit/auto-animate": "^0.8.2",
     "@hookform/resolvers": "^3.4.2",
     "@nextui-org/react": "^2.3.6",
+    "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.6",
     "react": "^18.2.0",
