@@ -29,7 +29,7 @@ const Login = () => {
     }
   }
   return (
-    <div className="flex flex-col gap-8 items-center justify-center w-full">
+    <div className="flex flex-col min-h-screen gap-8 items-center w-full">
         <header className="flex w-full items-center justify-between lg:border-b p-4 lg:px-8">
             <Link to="/" className="group flex items-center justify-center gap-1">
                 <svg className="lg:hidden" xmlns="http://www.w3.org/2000/svg" width="39" height="39" viewBox="0 0 39 39" fill="none">
