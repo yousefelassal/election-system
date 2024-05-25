@@ -9,8 +9,10 @@ const userSchema = new mongoose.Schema({
     },
     passwordHash: String,
     admin: Boolean,
-    voted: Boolean,
-    votedFor: String,
+    votedFor: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Candidate'
+    }
 })
 
 userSchema.set('toJSON', {
