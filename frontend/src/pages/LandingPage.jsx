@@ -15,7 +15,7 @@ const LandingPage = () => {
                 <span className="text-gray-700">Please Login or Signup to continue</span>
             </div>
             <div className="flex flex-col w-full items-center gap-2 mt-12 lg:mt-0">
-                <Link to="/login" className="flex items-center justify-center bg-blue-500 max-w-sm w-full hover:bg-blue-700 text-white text-center font-bold py-3 px-4 rounded-md transition-colors focus:outline-none focus:shadow-outline">Signin</Link>
+                <Link to="/login" className="flex items-center justify-center bg-blue-500 max-w-sm w-full hover:bg-blue-600 text-white text-center font-bold py-3 px-4 rounded-md transition-colors focus:outline-none focus:shadow-outline">Signin</Link>
                 <Link to="/signup" className="flex items-center justify-center border max-w-sm w-full bg-white hover:bg-blue-700/20 text-center text-black font-bold py-3 px-4 rounded-md transition-colors focus:outline-none focus:shadow-outline">Create account</Link>
             </div>
         </div>
