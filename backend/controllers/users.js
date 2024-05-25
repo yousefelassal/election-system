@@ -23,4 +23,9 @@ router.get('/', async (request, response) => {
   response.json(users);
 });
 
+router.get('/:id', async (request, response) => {
+  const user = await User.findById(request.params.id).populate('votedFor', { name: 1, party: 1 });
+  response.json(user);
+});
+
 module.exports = router;
