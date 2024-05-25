@@ -92,7 +92,7 @@ const AdminPanel = () => {
   return (
     <div className="flex flex-col flex-1 w-full h-full items-center justify-center lg:px-32">
         <div className="flex p-4 lg:px-6 flex-col gap-4 w-full rounded-xl h-full bg-white">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between">
             <h1 className="font-bold text-lg">Candidates</h1>
             <div className="flex items-center gap-2">
               <Button
