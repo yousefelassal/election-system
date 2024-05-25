@@ -1,6 +1,8 @@
 const AdminPanel = () => {
   return (
-    <div>AdminPanel</div>
+    <div className="flex flex-col min-h-full">
+        
+    </div>
   )
 }
 
