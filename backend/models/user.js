@@ -8,7 +8,10 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     passwordHash: String,
-    admin: Boolean,
+    admin: {
+        type: Boolean,
+        default: false
+    },
     votedFor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Candidate'
