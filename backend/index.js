@@ -6,6 +6,10 @@ const mongoose = require('mongoose')
 require('express-async-errors');
 const app = express();
 
+const userRouter = require('./controllers/users');
+const loginRouter = require('./controllers/login');
+const candidateRouter = require('./controllers/candidates');
+
 mongoose.set('strictQuery', false)
 
 console.log('connecting to', config.MONGODB_URI)
@@ -22,6 +26,10 @@ app.use(cors())
 app.use(morgan('tiny'));
 app.use(express.static('build'))
 app.use(express.json())
+
+app.use('/api/users', userRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/candidates', candidateRouter);
 
 app.listen(config.PORT, () => {
     console.log(`Server running on port ${config.PORT}`)
