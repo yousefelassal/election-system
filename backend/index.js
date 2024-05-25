@@ -15,7 +15,7 @@ const statsRouter = require('./controllers/stats');
 const connectDB = async () => {
   mongoose.set('strictQuery', false)
 
-  console.log('connecting to db', config.MONGODB_URI)
+  console.log('connecting to', config.MONGODB_URI)
 
   try {
     await mongoose.connect(config.MONGODB_URI)
