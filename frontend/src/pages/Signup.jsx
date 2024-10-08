@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
 import { Button, Input } from '@nextui-org/react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 
 const schema = z.object({
@@ -16,6 +16,7 @@ const schema = z.object({
 const Signup = () => {
   const form = useForm({ resolver: zodResolver(schema) })
   const { setUser } = useUserStore()
+  const navigate = useNavigate()
   const [isVisible, setIsVisible] = useState(false)
   const toggleVisibility = () => setIsVisible(!isVisible)
 
@@ -27,6 +28,7 @@ const Signup = () => {
     const user = await login(phone, password)
     if (user) {
       setUser(user)
+      navigate('/verify-2fa?enable=true&phone=' + phone)
     }
     if (!user) {
         form.setError('password', { type: 'manual', message: 'Server Error' })
